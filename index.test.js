@@ -99,4 +99,35 @@ describe('Testes Calculadora', () => {
       });
     });
   });
+
+  describe('Testes de Subrtração', () => {
+    test('Deve subtrair dois inteiros', () => {
+      expect(calculadora.subtrair(10, 2)).toBe(8);
+    });
+
+    test('Deve subtrair dois reais', () => {
+      const res = calculadora.subtrair(2, Math.pow(2, 1 / 2));
+
+      expect(res).toBeGreaterThan(0.5);
+      expect(res).toBeLessThan(0.6);
+    });
+
+    describe('Não deve subtrair outros tipos sem ser `number`', () => {
+      test.each([
+        ['exemploString', 2],
+        [{}, 2],
+        [true, 2],
+        [null, 2],
+        [undefined, 2],
+        [Symbol('foo'), 2],
+      ])('par de dados: %p, %p deve dar erro', (a, b) => {
+        expect(() => calculadora.subtrair(a, b)).toThrow(
+          'Primeiro argumento é inválido'
+        );
+        expect(() => calculadora.subtrair(b, a)).toThrow(
+          'Segundo argumento é inválido'
+        );
+      });
+    });
+  });
 });
